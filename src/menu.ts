@@ -31,7 +31,7 @@ const totalElements = (object: BasicData): string => {
   for (let key in object) {
     // TypeScript가 key가 BasicData의 키인 것을 알게 함
     const value = object[key as keyof BasicData];
-    result += liTags(anchorTags(key, value));
+    result += liTags(anchorTags(`#${key}`, value));
   }
   return result;
 };
@@ -47,9 +47,10 @@ const liTags = (children: string): string => {
 };
 
 root.innerHTML = `
-<ul>
+<ul id="menu">
   ${totalElements(basicData)}
 </ul>
+<main id="main-target"></main>
 `;
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -58,3 +59,12 @@ root.innerHTML = `
  * * HTML을 대신해서 만든 HTML 작성 코드
  * * Raect, CSR이다.
  */
+
+const mainTarget = document.querySelector('#main-target')!;
+console.log(window.location.hash); // ? window (최상위)
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash;
+  console.log(hash.slice(1));
+  mainTarget.innerHTML = basicData.jeamin;
+});
