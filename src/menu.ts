@@ -11,17 +11,25 @@ const textNode = (): string => {
 };
 
 interface BasicData {
-  jeamin: '황재민';
-  hoyoung: '유호영';
-  ujin: '최유진';
-  jiyoon: '임지윤';
+  hoyeon: {
+    name: string;
+    color: string;
+  };
+  yeonseung: {
+    name: string;
+    color: string;
+  };
 }
 
 const basicData: BasicData = {
-  jeamin: '황재민',
-  hoyoung: '유호영',
-  ujin: '최유진',
-  jiyoon: '임지윤',
+  hoyeon: {
+    name: '정호연',
+    color: 'lightblue',
+  },
+  yeonseung: {
+    name: '이연승',
+    color: 'pink',
+  },
 };
 
 // liTags(anchorTags(`#${object.jeamin}`, object.jeamin));
@@ -29,9 +37,8 @@ const basicData: BasicData = {
 const totalElements = (object: BasicData): string => {
   let result = '';
   for (let key in object) {
-    // TypeScript가 key가 BasicData의 키인 것을 알게 함
     const value = object[key as keyof BasicData];
-    result += liTags(anchorTags(`#${key}`, value));
+    result += liTags(anchorTags(`#${key}`, value.name));
   }
   return result;
 };
@@ -66,5 +73,12 @@ console.log(window.location.hash); // ? window (최상위)
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash;
   console.log(hash.slice(1));
-  mainTarget.innerHTML = basicData.jeamin;
+  let test = basicData[hash.slice(1) as keyof BasicData];
+  let div = document.createElement('div');
+  div.style.color = test.color;
+  div.textContent = test.name;
+  if (mainTarget.hasChildNodes()) {
+    mainTarget.removeChild(mainTarget.childNodes[0]);
+  }
+  mainTarget.appendChild(div);
 });
