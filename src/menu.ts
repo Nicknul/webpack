@@ -24,8 +24,15 @@ const basicData: BasicData = {
   jiyoon: '임지윤',
 };
 
+// liTags(anchorTags(`#${object.jeamin}`, object.jeamin));
+
 const totalElements = (object: BasicData): string => {
-  let result = liTags(anchorTags(`#${object.jeamin}`, object.jeamin));
+  let result = '';
+  for (let key in object) {
+    // TypeScript가 key가 BasicData의 키인 것을 알게 함
+    const value = object[key as keyof BasicData];
+    result += liTags(anchorTags(key, value));
+  }
   return result;
 };
 
